@@ -3,13 +3,12 @@ from django.core.cache import cache
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
 from users.models import User, Passenger, Rider
 from users.serializers import UserSerializer, PassengerSerializer, RiderSerializer, UserRegistrationSerializer
 from rest_framework.permissions import AllowAny
 from drf_spectacular.utils import extend_schema
-
-
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -173,3 +172,28 @@ class LoginView(TokenObtainPairView):
         return super().post(request, *args, **kwargs)
 
 
+class UserProfileView(APIView):
+    """API endpoint to retrieve and update user profile"""
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        summary="Get user profile",
+        description="Retrieve authenticated user's profile"
+    )
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+    @extend_schema(
+        summary="Update user profile",
+        description="Update authenticated user's profile"
+    )
+    def put(self, request):
+        serializer = UserSerializer(
+            request.user, 
+            data=request.data, 
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
