@@ -104,7 +104,7 @@ Team testing and documentation
 
 ```bash
 # In Codespace terminal
-python -m venv venv
+python -m venv venv 
 source venv/bin/activate
 
 # Install existing dependencies
