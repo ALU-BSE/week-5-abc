@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "6040612d-98d1-4c92-92b5-744903618826",
+		"name": "SafeBoda Dev",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "35577900"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"SecurePass123!\",\r\n    \"password2\": \"SecurePass123!\",\r\n    \"first_name\": \"Test\",\r\n    \"last_name\": \"User\",\r\n    \"phone_number\": \"+250788123456\",\r\n    \"user_type\": \"passenger\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/users/register/"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"SecurePass123!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/users/login/"
+			},
+			"response": []
+		},
+		{
+			"name": "get_profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU5NDAxNzgyLCJpYXQiOjE3NTkzOTgxODIsImp0aSI6IjA1OTM5NGUxZWM4NDQ3YTc5NjJhN2ZjY2I0NTUxOWYxIiwidXNlcl9pZCI6IjIifQ.dmFO5GlyoxSb4_GejU54n4a40c_lxi9nnSQh5iWB0xg"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/users/profile/"
+			},
+			"response": []
+		},
+		{
+			"name": "unauthorized",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/users/profile/"
+			},
+			"response": []
+		}
+	]
+}
