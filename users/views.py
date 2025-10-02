@@ -3,10 +3,15 @@ from django.core.cache import cache
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework import generics, status
+from drf_spectacular.utils import extend_schema
 
 from users.models import User, Passenger, Rider
 from users.serializers import UserSerializer, PassengerSerializer, RiderSerializer
 
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -147,5 +152,24 @@ class RiderViewSet(viewsets.ModelViewSet):
         
         serializer = self.get_serializer(rider)
         return Response(serializer.data)
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """Custom token serializer to include user data"""
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['user'] = UserSerializer(self.user).data
+        return data
+
+
+class LoginView(TokenObtainPairView):
+    """API endpoint for user login"""
+    serializer_class = CustomTokenObtainPairSerializer
+
+    @extend_schema(
+        summary="User login",
+        description="Authenticate user and receive JWT tokens"
+    )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
